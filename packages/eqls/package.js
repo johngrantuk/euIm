@@ -7,5 +7,5 @@ Package.describe({
 Package.onUse(function (api) {
   api.versionsFrom('0.9.4');
   api.addFiles('eqls.js', 'server');
-  api.export('EQLS');
+  api.export('Eqls');
 });

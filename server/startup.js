@@ -1,65 +1,45 @@
-/*if (Meteor.isServer) {
+Meteor.startup(function () {
 
-    Meteor.startup(function () {
+  Countries.remove({});
+  Topics.remove({});
 
-      console.log("Settings Test: " + Meteor.settings.twilioAccountSid);
+  Eqls.getCountries();
 
-      smtp = {
-        username: Meteor.settings.emailUserName,
-        password: Meteor.settings.emailPassword,
-        server:   Meteor.settings.emailServer,
-        port: Meteor.settings.emailPort
-      }
+  var topicResponse = Eqls.getTopics();
 
-      process.env.MAIL_URL = 'smtp://' + encodeURIComponent(smtp.username) + ':' + encodeURIComponent(smtp.password) + '@' + encodeURIComponent(smtp.server) + ':' + smtp.port;
+  topicResponse.forEach(function(entry) {
+    Topics.insert({
+      topicId: entry.TopicId,
+      topicValue: entry.TopicValue,
+      isSelected: false
+    });
+  });
 
-      if (Meteor.users.find().count() === 0){
-        console.log("Startup: Creating Admin Account.");
-        Accounts.createUser({username: Meteor.settings.adminUserName, email: Meteor.settings.adminEmail, password: Meteor.settings.adminPassword});
-      }
+  var topicVariables = Eqls.getTopicVariables(2);
 
-      if(AllBeers.find().count() === 0){
-        console.log("Startup: Adding Default Beers.");
+  console.log(topicVariables);
 
-        AddBeer("Pentland IPA", "Classic IPA", "3.9");
-        AddBeer("Continental Gold", "Golden ale.", "4.8");
-        AddBeer("80/", "Scottish Heavy", "4.4");
-        AddBeer("Pils", "Czech Lager", "4.7");
-        AddBeer("Hollyrood", "Pale Ale", "5");
-        AddBeer("Hefe", "Wheat Beer", "5.4");
-        AddBeer("First World Problems", "Belgian IPA", "6.2");
-        AddBeer("Cascadian East", "APA", "5.4");
-        AddBeer("Beach Wear Lager", "Summer Beer", "5.0");
-        AddBeer("Peter’s IPA", "New World IPA", "4.7");
-        AddBeer("Star of Hope", "Belgian Dubbel", "5.9");
-        AddBeer("Perkin Reveler", "Pilgrim Amber Ale", "4.0");
-        AddBeer("Arabica Grinding", "Coffee IPA", "5.9");
-        AddBeer("Marguerita Red", "US Amber", "4.6");
-        AddBeer("Tasty Beer", "Comming soon!", "0");
-        AddBeer("Tasty Beer", "Comming soon!", "0");
-        AddBeer("Tasty Beer", "Comming soon!", "0");
-        AddBeer("Tasty Beer", "Comming soon!", "0");
-      }
+});
 
-      if(MobileNos.find().count() === 0){
-        console.log("Startup: Adding Phone Number.");
+Meteor.methods({
+  UpdateTopicVariables: function(VariableId) {
 
-        MobileNos.insert({
-          mobileNo: Meteor.settings.adminPhoneNumber,
-          submitted: new Date()
-        });
-      }
+    console.log("\nUpdateTopicVariables()\n");
+
+    TopicVariables.remove({});
+
+    var topicResponse = Eqls.getTopicVariables(VariableId);
+
+    topicResponse.forEach(function(entry) {
+
+      TopicVariables.insert({
+        variableLabel: entry.variableLabel,
+        data: entry.data,
+        categories: entry.categories
+        //categoryLabel: entry.categoryLabel
+      });
 
     });
-}
 
-
-AddBeer = function(Name, Description, Strength){
-  console.log("Add beer")
-  AllBeers.insert({
-    name: Name,
-    strength: Strength,
-    description: Description
-  });
-}
-*/
+  }
+});

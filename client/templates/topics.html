@@ -1,0 +1,40 @@
+<template name="topics">
+  {{#each topics}}
+    {{> topic}}
+  {{/each}}
+</template>
+
+<template name="topic">
+  <div>
+      <div>Topic: {{topicValue}}</div>
+  </div>
+</template>
+
+<template name="variables">
+  {{#each variables}}
+    {{> variable}}
+  {{/each}}
+</template>
+
+<template name="variable">
+  <div>
+      <h4>Topic Variable: {{variableLabel}}</h4>
+      {{#each categories}}
+        {{> category}}
+      {{/each}}
+  </div>
+</template>
+
+<template name="category">
+  <div>
+      <div>Category: {{categoryLabel}}
+      {{#each categoryData}}
+        {{> dataRecord}}
+      {{/each}}
+      </div>
+  </div>
+</template>
+
+<template name="dataRecord">
+  {{year}} {{freq}}
+</template>
