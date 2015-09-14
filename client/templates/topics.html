@@ -18,7 +18,15 @@
 
 <template name="variable">
   <div>
-      <h4>Topic Variable: {{variableLabel}}</h4>
+      <h4>{{variableLabel}}</h4>
+      <h5>{{question}}</h5>
+  </div>
+</template>
+
+<template name="variableOld">
+  <div>
+      <h4>{{variableLabel}}</h4>
+      <h5>{{question}}</h5>
       {{#each categories}}
         {{> category}}
       {{/each}}
@@ -37,4 +45,8 @@
 
 <template name="dataRecord">
   {{year}} {{freq}}
+</template>
+
+<template name="variableData">
+  WILL BE DATA
 </template>
