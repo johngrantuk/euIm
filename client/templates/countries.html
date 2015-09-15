@@ -1,0 +1,11 @@
+<template name="countries">
+  {{#each countries}}
+    {{> country}}
+  {{/each}}
+</template>
+
+<template name="country">
+  <div class="country {{selected}}">
+      <h5>{{name}}</h5>
+  </div>
+</template>

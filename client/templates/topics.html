@@ -6,7 +6,8 @@
 
 <template name="topic">
   <div>
-      <div>Topic: {{topicValue}}</div>
+      <h5>{{topicValue}}</h5>
+      <hr>
   </div>
 </template>
 
@@ -18,20 +19,12 @@
 
 <template name="variable">
   <div>
-      <h4>{{variableLabel}}</h4>
-      <h5>{{question}}</h5>
+      <h5>{{variableLabel}}</h5>
+      {{question}}
+      <hr>
   </div>
 </template>
 
-<template name="variableOld">
-  <div>
-      <h4>{{variableLabel}}</h4>
-      <h5>{{question}}</h5>
-      {{#each categories}}
-        {{> category}}
-      {{/each}}
-  </div>
-</template>
 
 <template name="category">
   <div>
@@ -48,5 +41,6 @@
 </template>
 
 <template name="variableData">
-  WILL BE DATA
+  <div>{{selectedTopic}}</div>
+  <div>{{selectedVariable}}</div>
 </template>

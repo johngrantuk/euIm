@@ -99,9 +99,9 @@ Eqls.getTopicVariables = function(TopicId){                           // Returns
 
 }
 
-Eqls.getVariableData = function(VariableId, CountryValue){
+Eqls.getVariableDataForCountry = function(VariableId, CountryValue){
 
-  console.log("Eqls.getVariableData(): " + VariableId + ", " + CountryValue);
+  //console.log("Eqls.getVariableData(): " + VariableId + ", " + CountryValue);
 
   var dataResponse = Meteor.http.get(
     "https://api.ukdataservice.ac.uk/V1/datasets/EQLS/TimeseriesFrequency?user_key="  + Meteor.settings.apiKey + "&variableId=" + VariableId + "&filter=2%3A" + CountryValue,
@@ -134,90 +134,34 @@ Eqls.getVariableData = function(VariableId, CountryValue){
 
 Eqls.loadVariableData = function(Variable, CountryValue){
 
-  console.log("Eqls.loadVariableData(): " + CountryValue);
+  //console.log("Eqls.loadVariableData(): " + CountryValue);
 
-  variableData = Eqls.getVariableData(Variable.variableId, CountryValue);            // Get the actual data for the Variable.
+  variableData = Eqls.getVariableDataForCountry(Variable.variableId, CountryValue);            // Get the actual data for the Variable.
 
-  Variable.categories.forEach(function(category) {                     // Iterate each category for topic.
+  Variable.categoryTotal07 = 0;
+  Variable.categoryTotal11 = 0;
+
+  Variable.categories.forEach(function(category) {                     // Iterate each category for variable.
 
       category.categoryData = [];                                     // Clear old category data.
 
       variableData.forEach(function(dataEntry) {                      // Check the variableData for data for this category.
 
-        if(dataEntry.value == category.CategoryValue)                 // Check if data matches the catgory.
+        if(dataEntry.value == category.CategoryValue){                // Check if data matches the catgory.
+
             category.categoryData.push({                              // If it does then add to category data.
               year: dataEntry.year,
               freq: dataEntry.freq
             });
 
+            if(dataEntry.year === 2007)
+              Variable.categoryTotal07 = Variable.categoryTotal07 + dataEntry.freq;
+            else {
+              Variable.categoryTotal11 = Variable.categoryTotal07 + dataEntry.freq;
+            }
+        }
       });
   });
 
   return Variable;
-}
-
-Eqls.getTopicVariablesOld = function(TopicId){
-
-  if(!Meteor.settings.apiKey)
-    throw new Meteor.Error(500, 'Please provide an API key in Meteor.settings');
-
-  var topicResponse = Meteor.http.get(
-    "https://api.ukdataservice.ac.uk/V1/datasets/EQLS/topics/" + TopicId + "/variables?user_key=" + Meteor.settings.apiKey,
-    {
-      timeout: 5000,
-    }
-  );
-
-  if(topicResponse.statusCode === 200){
-
-    var variables = [];
-    var categories =[];
-    var categoryData = [];
-
-    topicResponse.data.Variables.forEach(function(entry) {              // Iterate each topic variable and store basic info and it's cateogries.
-
-      variableData = Eqls.getVariableData(entry.VariableId);            // Get the actual data for the Variable.
-
-      categories =[];
-
-      entry.Categories.forEach(function(category) {                     // Iterate each category for topic.
-
-        categoryData = [];
-
-        variableData.forEach(function(dataEntry) {                      // Check the variableData for data for this category.
-
-          if(dataEntry.value == category.CategoryValue)                 // Check if data matches the catgory.
-            categoryData.push({                                         // If it does then add to category data.
-              year: dataEntry.year,
-              freq: dataEntry.freq
-            });
-
-        });
-
-        categories.push({
-          categoryLabel: category.CategoryLabel,
-          categoryValue: category.CategoryValue,
-          categoryData: categoryData
-        });
-
-      });
-
-
-      var topicVariable = {
-        variableLabel: entry.VariableLabel,
-        variableId: entry.VariableId,
-        question: entry.Question,
-        categories: categories
-      };
-
-      variables.push(topicVariable);
-
-    });
-
-    return variables;
-
-  }else{
-    throw new Meteor.Error(500, "EQLS call failed with error: " + topicResponse.status_txt);
-  }
-
 }
