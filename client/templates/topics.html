@@ -20,7 +20,7 @@
 <template name="variable">
   <div>
       <h5>{{variableLabel}}</h5>
-      {{question}}
+      <div class="question">{{question}}</div>
       <hr>
   </div>
 </template>
@@ -38,9 +38,4 @@
 
 <template name="dataRecord">
   {{year}} {{freq}}
-</template>
-
-<template name="variableData">
-  <div>{{selectedTopic}}</div>
-  <div>{{selectedVariable}}</div>
 </template>

@@ -1,0 +1,14 @@
+<template name="variableData">
+  <h5>Topic</h5>
+  <div class="about">{{selectedTopic}}</div>
+  <h5>Variable</h5>
+  <div class="about">{{selectedVariable}}</div>
+  <h5>Question</h5>
+  <div class="about">{{selectedQuestion}}</div>
+  <h5>Countries</h5>
+  <ul>
+    {{#each selectedCountries}}
+      <li class="aboutCountriesList" style="color:{{this.color}}"><span class="aboutCountriesSpan">{{this.name}}</span></li>
+    {{/each}}
+  </ul>
+</template>

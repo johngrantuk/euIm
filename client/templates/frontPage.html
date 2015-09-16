@@ -4,12 +4,32 @@
   {{#if dataLoaded}}
     {{> spinner}}
   {{else}}
-  <h1 class="title">Eu App Challenge</h1>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+     <!-- Brand and toggle get grouped for better mobile display -->
+     <div class="navbar-header">
+       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+         <span class="sr-only">Toggle navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="#">EULife AppChallenge</a>
+     </div>
+   </div>
+  </nav>
 
   <div class="row">
 
     <div class="col-lg-8 col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Data Graph</h3>
+        </div>
+        <div class="panel-body">
           {{> chart}}
+        </div>
+      </div>
     </div>
 
     <div class="col-lg-4 col-md-4">
@@ -75,8 +95,19 @@
           </div>
           <div id="collapseFour" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFour">
             <div class="panel-body">
-              Expand options above by clicking.
               {{> variableData}}
+              <hr>
+              <h5>Competition</h5>
+              <div class="about">
+                <p>
+                Immigration was one of the top subjects of debate in the 2015 UK general election and since then the subject has rarely been out of the headlines across Europe. The aim of this app is to explore the relationship between immigration and quality of life.
+                </p>
+                <p>
+                The <a href="http://eulife.appchallenge.net/" target="_blank">#EULife AppChallenge</a> encourages developers to use the <a href="https://www.eurofound.europa.eu/surveys/european-quality-of-life-surveys-eqls/european-quality-of-life-survey-2012" target="_blank">Eurofound European Quality of Life Survey (2007 & 2011)</a> open data which has been published through an <a href="https://ukdataservice.3scale.net/" target="_blank">API by the UK Data Service.</a>
+                The questionnaire data is combined with each countrys immigrant population data based on the United Nations report World Population Policies 2005 and the United Nations report Trends in International Migrant Stock: The 2013 Revision found <a href="https://en.wikipedia.org/wiki/List_of_countries_by_immigrant_population#2005_report" target="_blank">here</a>.
+                </p>
+                <a href="https://johngrantuk.github.io/" target="_blank">Source Code</a>
+              </div>
             </div>
           </div>
         </div>

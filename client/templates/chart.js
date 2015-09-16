@@ -1,6 +1,4 @@
 Template.chart.topGenresChart = function() {
 
-
-
-    return Session.get("GraphObj");;
+    return Session.get("GraphObj");
 };

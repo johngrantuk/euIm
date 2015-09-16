@@ -31,6 +31,7 @@ Template.variables.events({
   'click': function () {
 
     Session.set("selectedVariable", this.variableLabel);
+    Session.set("question", this.question);
     $('#collapseThree').collapse('hide');
     Session.set("isLoading", true);
 
@@ -39,7 +40,8 @@ Template.variables.events({
       var series = [];
       var question = "?";
 
-      countries = Countries.find({}, {limit: 3});                                           // Find countries that are selected.
+      //countries = Countries.find({}, {limit: 3});                                           // Find countries that are selected.
+      countries = Countries.find({isSelected: true});
 
       countries.forEach(function(country){                                                  // Iterate each country.
 
@@ -123,15 +125,3 @@ Template.variables.events({
   }
 
 })
-
-Template.variableData.helpers({
-  selectedTopic: function() {
-    Session.setDefault('selectedTopic', "Please select a topic from options above.");
-    return Session.get("selectedTopic");
-  },
-
-  selectedVariable: function() {
-    Session.setDefault('selectedVariable', "Please select a variable from options above.");
-    return Session.get("selectedVariable");
-  }
-});
